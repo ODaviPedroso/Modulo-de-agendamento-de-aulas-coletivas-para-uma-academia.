@@ -1,0 +1,18 @@
+version: '3.8'
+
+services:
+  postgres_db:
+    image: postgres:16 
+    container_name: agendamento-postgres
+    restart: always
+    environment:
+      - POSTGRES_USER=agendamento_user
+      - POSTGRES_PASSWORD=SenhaTop123
+      - POSTGRES_DB=agendamento_db
+    ports:
+      - "5432:5432"
+    volumes:
+      - agendamento_data:/var/lib/postgresql/data
+
+volumes:
+  agendamento_data:

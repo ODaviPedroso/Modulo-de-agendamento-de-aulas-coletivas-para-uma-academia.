@@ -22,12 +22,10 @@ namespace Infraestrutura.Data.Configurations
                 .IsRequired() 
                 .HasMaxLength(100); 
 
-
             builder.Property(a => a.TipoPlano)
                 .HasColumnName("Tipo_Plano")
                 .IsRequired()
                 .HasMaxLength(150);
-
         }
     }
 }

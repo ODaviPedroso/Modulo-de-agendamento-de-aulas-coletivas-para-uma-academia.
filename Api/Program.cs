@@ -22,6 +22,4 @@ app.UseHttpsRedirection();
 
 app.MapControllers();
 
-app.MapGet("/", () => "API de Agendamento de Aulas funcionando!");
-
 app.Run();

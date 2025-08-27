@@ -6,15 +6,15 @@ namespace Api.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    public abstract class GenericController<TEntity> : ControllerBase where TEntity : BaseEntity
+    public abstract class GenericController<TEntity, TCreateDto> : ControllerBase
+        where TEntity : BaseEntity
     {
-        private readonly IGenericAplic<TEntity> _service;
+        protected readonly IGenericAplic<TEntity> _service;
 
         protected GenericController(IGenericAplic<TEntity> service)
         {
             _service = service;
-        }
-
+        }  
         [HttpGet]
         public async Task<ActionResult<IEnumerable<TEntity>>> GetAll()
         {
@@ -30,9 +30,9 @@ namespace Api.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> Create(TEntity entity)
+        public virtual async Task<ActionResult<TEntity>> Create(TCreateDto dto)
         {
-            await _service.CreateAsync(entity);
+            var entity = await _service.CreateAsync(dto); 
             return CreatedAtAction(nameof(GetById), new { id = entity.Id }, entity);
         }
 

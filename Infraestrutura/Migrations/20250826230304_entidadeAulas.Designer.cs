@@ -3,6 +3,7 @@ using System;
 using Infraestrutura.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Infraestrutura.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250826230304_entidadeAulas")]
+    partial class entidadeAulas
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -21,34 +24,6 @@ namespace Infraestrutura.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
-
-            modelBuilder.Entity("Dominio.Agendamentos.Agendamento", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
-
-                    b.Property<int>("CodigoAluno")
-                        .HasColumnType("integer")
-                        .HasColumnName("Id_Aluno");
-
-                    b.Property<int>("CodigoAula")
-                        .HasColumnType("integer")
-                        .HasColumnName("Id_Aula");
-
-                    b.Property<DateTime>("DataAgendamento")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("CodigoAluno");
-
-                    b.HasIndex("CodigoAula");
-
-                    b.ToTable("Agendamento", (string)null);
-                });
 
             modelBuilder.Entity("Dominio.Alunos.Aluno", b =>
                 {
@@ -97,25 +72,6 @@ namespace Infraestrutura.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Aula", (string)null);
-                });
-
-            modelBuilder.Entity("Dominio.Agendamentos.Agendamento", b =>
-                {
-                    b.HasOne("Dominio.Alunos.Aluno", "Aluno")
-                        .WithMany()
-                        .HasForeignKey("CodigoAluno")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.HasOne("Dominio.Aulas.Aula", "Aula")
-                        .WithMany()
-                        .HasForeignKey("CodigoAula")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.Navigation("Aluno");
-
-                    b.Navigation("Aula");
                 });
 #pragma warning restore 612, 618
         }

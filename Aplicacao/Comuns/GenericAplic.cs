@@ -1,4 +1,5 @@
-﻿using Dominio.Comuns;
+﻿using AutoMapper;
+using Dominio.Comuns;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,10 +11,12 @@ namespace Aplicacao.Comuns
     public abstract class GenericAplic<TEntity> : IGenericAplic<TEntity> where TEntity : BaseEntity
     {
         private readonly IGenericRepository<TEntity> _repository;
+        protected readonly IMapper _mapper; 
 
-        protected GenericAplic(IGenericRepository<TEntity> repository)
+        protected GenericAplic(IGenericRepository<TEntity> repository, IMapper mapper)
         {
             _repository = repository;
+            _mapper = mapper;
         }
 
         public virtual async Task<IEnumerable<TEntity>> GetAllAsync()
@@ -26,9 +29,11 @@ namespace Aplicacao.Comuns
             return await _repository.GetByIdAsync(id);
         }
 
-        public virtual async Task CreateAsync(TEntity entity)
+        public virtual async Task<TEntity> CreateAsync<TDto>(TDto dto)
         {
+            var entity = _mapper.Map<TEntity>(dto);
             await _repository.AddAsync(entity);
+            return entity;
         }
 
         public virtual async Task UpdateAsync(int id, TEntity entity)

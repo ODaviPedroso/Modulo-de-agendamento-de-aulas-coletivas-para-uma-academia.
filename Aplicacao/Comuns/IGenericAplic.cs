@@ -11,7 +11,7 @@ namespace Aplicacao.Comuns
     {
         Task<IEnumerable<TEntity>> GetAllAsync();
         Task<TEntity?> GetByIdAsync(int id);
-        Task CreateAsync(TEntity entity);
+        Task<TEntity> CreateAsync<TDto>(TDto createDto);
         Task UpdateAsync(int id, TEntity entity);
         Task DeleteAsync(int id);
     }
